@@ -1,0 +1,16 @@
+# Разрешаем доступ к этой папке
+Require all granted
+
+# Настраиваем Front Controller
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /Interactive-map-of-Kuzbass/public/
+
+    # Если файл реально существует (CSS, JS, картинки) - отдаем напрямую
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # Если директория существует - тоже отдаем
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Перенаправляем всё остальное в index.php
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

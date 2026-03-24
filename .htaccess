@@ -1,0 +1,10 @@
+# Отключаем просмотр директорий
+Options -Indexes
+
+# Запрещаем доступ к важным файлам
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql|bak)$">
+    Require all denied
+</FilesMatch>
+
+# Закрываем доступ к корню проекта по умолчанию
+Require all denied
