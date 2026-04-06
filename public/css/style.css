@@ -1,0 +1,61 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    background-color: #0d1117;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #8b949e;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    background-color: #161b22;
+}
+
+.nav-links a {
+    color: #8b949e;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.nav-links a:hover {
+    color: #58a6ff;
+}
+
+.app-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    background-color: #0d1117;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.sidebar-right {
+    width: 350px;
+    border-left: 1px solid #30363d;
+}
+
+.sidebar-left {
+    width: 250px;
+    border-right: 1px solid #30363d;
+}
+
+.map-view {
+    flex: 1;
+    background-color: #1c2128;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

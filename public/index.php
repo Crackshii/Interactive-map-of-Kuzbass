@@ -1,8 +1,8 @@
 <?php
 define('ROOT_PATH', dirname(__DIR__) . "/src/");
 
-include_once ROOT_PATH . "settings/pdo.php";
-include_once ROOT_PATH . "models/Point.php";
+require_once '../src/settings/pdo.php';
+require_once '../src/models/Point.php';
 require_once '../src/models/User.php';
 require_once '../src/models/Comment.php';
 
@@ -11,20 +11,32 @@ use Models\User;
 use Models\Comment;
 
 $conn = getConnection();
-if ($conn[0]) {
-    $pdo = $conn[1];
-    
-    $point = new Point($pdo);
-    $point->load(1);
-    $author = $point->getUser();
-    echo "Точку создал: {$author->username}";
+$pdo = $conn[1];
 
-    // Получить комментарии к точке
-    $comments = $point->getComments();
-    foreach ($comments as $comment) {
-    echo "Комментарий: {$comment->title}";
-    }
+$page = $_GET['page'] ?? 'home';
 
-} else {
-    echo $conn[1];
+include '../src/views/layouts/header.php';
+
+switch ($page) {
+    case 'home':
+        include '../src/views/home.php';
+        break;
+    case 'my_points':
+        include '../src/views/user/my_points.php';
+        break;
+    case 'profile':
+        include '../src/views/user/profile.php';
+        break;
+    case 'admin':
+        include '../src/views/admin/dashboard.php';
+        break;
+    case 'admin_users':
+        include '../src/views/admin/users.php';
+        break;
+    default:
+        include '../src/views/404.php';
+        break;
 }
+
+include '../src/views/layouts/footer.php';
+?>
