@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Интерактивная карта</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.8.0/ol.css">
 </head>
 <body>
 

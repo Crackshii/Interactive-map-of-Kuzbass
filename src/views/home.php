@@ -5,12 +5,21 @@
         <p>Здесь будут фильтры</p>
     </aside>
 
-    <!-- Центр (карта) -->
-    <main class="map-view">
-        <div id="map-placeholder">
-            Карта
-        </div>
-    </main>
+    <!-- Центр (карта) --> 
+   <div class="map-wrapper">
+    <div id="map"></div>
+
+    <div class="map-panel">
+        <div>Широта: <span id="lat-value">—</span></div>
+        <div>Долгота: <span id="lng-value">—</span></div>
+
+        <form method="post" action="?page=points/store" id="point-form">
+            <input type="hidden" name="x" id="point-x">
+            <input type="hidden" name="y" id="point-y">
+            <button type="submit">Добавить точку</button>
+        </form>
+    </div>
+</div>
 
     <!-- Правый сайдбар -->
     <aside class="sidebar sidebar-right">
