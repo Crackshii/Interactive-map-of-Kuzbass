@@ -10,7 +10,6 @@ require_once '../src/controllers/AuthController.php';
 $conn = getConnection();
 $pdo = $conn[1];
 
-// В самом верху, после получения $pdo
 $page = $_GET['page'] ?? 'home';
 
 // POST маршруты
@@ -26,33 +25,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// GET маршруты (которые идут через контроллеры)
+// GET маршруты
 if ($page === 'logout') {
     AuthController::logout();
 }
 
 if ($page === 'profile') {
-    UserController::profile($pdo);  // контроллер сам подключит header/footer
+    UserController::profile($pdo);
     exit;
 }
 
-<<<<<<< HEAD
 if ($page === 'my_points') {
-    UserController::myPoints($pdo);  // контроллер сам подключит header/footer
+    UserController::myPoints($pdo);
     exit;
 }
 
-// Для остальных страниц стартуем сессию и подключаем header вручную
-session_start();
-$userId = $_SESSION['user_id'] ?? null;
-$userRole = $_SESSION['role'] ?? null;
-=======
 if ($page === 'admin_delete_user') {
     UserController::deleteUser($pdo);
     exit;
 }
 
->>>>>>> 483df2521e49956af65d327eeb512e7c29ee405c
+// Для остальных страниц
+session_start();
+$userId = $_SESSION['user_id'] ?? null;
+$userRole = $_SESSION['role'] ?? null;
 
 include '../src/views/layouts/header.php';
 
