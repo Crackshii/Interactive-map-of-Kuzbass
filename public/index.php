@@ -5,6 +5,7 @@ require_once '../src/settings/pdo.php';
 require_once '../src/models/Point.php';
 require_once '../src/models/User.php';
 require_once '../src/models/Comment.php';
+require_once '../src/controllers/UserController.php';
 
 use Models\Point;
 use Models\User;
