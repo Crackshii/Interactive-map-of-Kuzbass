@@ -36,6 +36,7 @@ if ($page === 'profile') {
     exit;
 }
 
+<<<<<<< HEAD
 if ($page === 'my_points') {
     UserController::myPoints($pdo);  // контроллер сам подключит header/footer
     exit;
@@ -45,6 +46,13 @@ if ($page === 'my_points') {
 session_start();
 $userId = $_SESSION['user_id'] ?? null;
 $userRole = $_SESSION['role'] ?? null;
+=======
+if ($page === 'admin_delete_user') {
+    UserController::deleteUser($pdo);
+    exit;
+}
+
+>>>>>>> 483df2521e49956af65d327eeb512e7c29ee405c
 
 include '../src/views/layouts/header.php';
 
