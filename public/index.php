@@ -31,6 +31,11 @@ if ($page === 'points/store') {
 }
 /*З*/
 
+if ($page === 'admin_delete_user') {
+    UserController::deleteUser($pdo);
+    exit;
+}
+
 
 include '../src/views/layouts/header.php';
 

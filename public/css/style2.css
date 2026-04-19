@@ -1,0 +1,81 @@
+.admin-search-shell {
+    display: block;
+}
+
+.admin-users-list {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.admin-user-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 26px;
+    border: 1px solid #30363d;
+    border-radius: 20px;
+    background-color: #1b212b;
+}
+
+.admin-user-card-static {
+    justify-content: flex-start;
+}
+
+.admin-user-meta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-width: 0;
+}
+
+.admin-user-avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background-color: #353c46;
+    flex-shrink: 0;
+}
+
+.admin-user-text {
+    min-width: 0;
+}
+
+.admin-user-name {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.admin-user-role {
+    margin-top: 6px;
+    color: #9aa7bb;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-user-delete-button {
+    padding: 14px 22px;
+    border: none;
+    border-radius: 14px;
+    background-color: #ff4b46;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-user-delete-button:hover {
+    background-color: #ef3f3a;
+}
+
+@media (max-width: 900px) {
+    .admin-user-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
