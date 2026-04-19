@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <title>Интерактивная карта</title>
     <link rel="stylesheet" href="./css/style.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="./css/style2.css"> 
+=======
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.8.0/ol.css">
+>>>>>>> origin/local-backup-20260417
 </head>
 <body>
 
