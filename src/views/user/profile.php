@@ -1,4 +1,7 @@
-<?php $profileUser = UserController::getProfileUser($pdo); ?>
+<?php
+$profileUser = UserController::getProfileUser($pdo);
+$profilePointsCount = UserController::getProfilePointsCount($pdo);
+?>
 
 <div class="profile-wrapper">
     <div class="profile-block">
@@ -25,6 +28,17 @@
                     <span class="info-label">ID аккаунта</span>
                     <span class="info-value">
                         <?= htmlspecialchars($profileUser ? (string) $profileUser->id : 'Нет данных', ENT_QUOTES, 'UTF-8') ?>
+                    </span>
+                </div>
+            </div>
+
+            <h3>Дополнительно</h3>
+
+            <div class="profile-info-list">
+                <div class="info-item">
+                    <span class="info-label">Ваши точки на карте</span>
+                    <span class="info-value">
+                        <?= htmlspecialchars((string) $profilePointsCount, ENT_QUOTES, 'UTF-8') ?>
                     </span>
                 </div>
             </div>

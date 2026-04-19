@@ -25,6 +25,17 @@ class UserController
         return $user;
     }
 
+    public static function getProfilePointsCount(\PDO $db): int
+    {
+        $user = self::getProfileUser($db);
+
+        if ($user === null) {
+            return 0;
+        }
+
+        return count($user->getPoints());
+    }
+
     private static function resolveUserId(\PDO $db): ?int
     {
         if (!empty($_SESSION['user']['id'])) {
