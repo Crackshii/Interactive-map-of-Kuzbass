@@ -480,3 +480,87 @@ body {
         align-items: flex-start;
     }
 }
+
+/* Формы авторизации и регистрации */
+.auth-container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #161b22;
+    border-radius: 10px;
+    border: 1px solid #30363d;
+}
+
+.auth-container h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+}
+
+.auth-container form div {
+    margin-bottom: 15px;
+}
+
+.auth-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #8b949e;
+}
+
+.auth-container input {
+    width: 100%;
+    padding: 10px;
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.auth-container input:focus {
+    outline: none;
+    border-color: #58a6ff;
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #238636;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.auth-container button:hover {
+    background-color: #2ea043;
+}
+
+.auth-container p {
+    text-align: center;
+    margin-top: 20px;
+    color: #8b949e;
+}
+
+.auth-container a {
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    background-color: rgba(255, 50, 50, 0.1);
+    border: 1px solid #ff3333;
+    color: #ff6666;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}

@@ -11,12 +11,21 @@
 
 <header class="navbar">
     <nav class="nav-links">
-        <a href="?page=home">Главная Карта</a>
+    <a href="?page=home">Главная Карта</a>
+    
+    <?php if (isset($_SESSION['user_id'])): ?>
         <a href="?page=my_points">Мои Точки</a>
         <a href="?page=profile">Профиль</a>
-        <a href="?page=admin">Панель Администратора</a>
-        <a href="?page=admin_users">Пользователи</a>
-    </nav>
+        <?php if ($_SESSION['role'] === 'admin'): ?>
+            <a href="?page=admin">Панель Администратора</a>
+            <a href="?page=admin_users">Пользователи</a>
+        <?php endif; ?>
+        <a href="?page=logout">Выход</a>
+    <?php else: ?>
+        <a href="?page=login">Вход</a>
+        <a href="?page=register">Регистрация</a>
+    <?php endif; ?>
+</nav>
 </header>
 
 <main class="app-container">

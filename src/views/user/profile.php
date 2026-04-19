@@ -1,16 +1,11 @@
-<?php
-$profileUser = UserController::getProfileUser($pdo);
-$profilePointsCount = UserController::getProfilePointsCount($pdo);
-?>
-
 <div class="profile-wrapper">
     <div class="profile-block">
         <div class="profile-left">
             <h2 class="profile-name">
-                <?= htmlspecialchars($profileUser ? $profileUser->username : 'Пользователь не найден', ENT_QUOTES, 'UTF-8') ?>
+                <?= htmlspecialchars($profileUser->username ?? 'Пользователь не найден') ?>
             </h2>
             <span class="profile-role">
-                <?= htmlspecialchars($profileUser ? $profileUser->role : 'Нет данных', ENT_QUOTES, 'UTF-8') ?>
+                <?= htmlspecialchars($profileUser->role ?? 'Нет данных') ?>
             </span>
         </div>
 
@@ -21,13 +16,13 @@ $profilePointsCount = UserController::getProfilePointsCount($pdo);
                 <div class="info-item">
                     <span class="info-label">Имя пользователя</span>
                     <span class="info-value">
-                        <?= htmlspecialchars($profileUser ? $profileUser->username : 'Нет данных', ENT_QUOTES, 'UTF-8') ?>
+                        <?= htmlspecialchars($profileUser->username ?? 'Нет данных') ?>
                     </span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">ID аккаунта</span>
                     <span class="info-value">
-                        <?= htmlspecialchars($profileUser ? (string) $profileUser->id : 'Нет данных', ENT_QUOTES, 'UTF-8') ?>
+                        <?= htmlspecialchars((string) ($profileUser->id ?? 'Нет данных')) ?>
                     </span>
                 </div>
             </div>
@@ -38,7 +33,7 @@ $profilePointsCount = UserController::getProfilePointsCount($pdo);
                 <div class="info-item">
                     <span class="info-label">Ваши точки на карте</span>
                     <span class="info-value">
-                        <?= htmlspecialchars((string) $profilePointsCount, ENT_QUOTES, 'UTF-8') ?>
+                        <?= htmlspecialchars((string) ($profilePointsCount ?? 0)) ?>
                     </span>
                 </div>
             </div>
