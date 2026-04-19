@@ -6,15 +6,27 @@ use PDOException;
 use Models\User;
 use Models\Comment;
 
-class Point {
-
-    public $id;  
-    public $x; 
-    public $y; 
-    public $user_id;  
-    public $photo;  
+class Point
+{
+    public $id;
+    public $x;
+    public $y;
+    public $user_id;
+    public $photo;
 
     private $db;
+
+    public static function create(PDO $db, int $userId, float $x, float $y): bool
+    {
+        $sql = "INSERT INTO points (photo, user_id, x, y) VALUES (NULL, :user_id, :x, :y)";
+        $stmt = $db->prepare($sql);
+
+        return $stmt->execute([
+            ':user_id' => $userId,
+            ':x' => $x,
+            ':y' => $y,
+        ]);
+    }
 
     public function __construct(PDO $db)
     {
@@ -23,7 +35,7 @@ class Point {
 
     public function load($id)
     {
-        try{
+        try {
             $stmt = $this->db->prepare("SELECT * FROM points WHERE id = ?");
             $stmt->execute([$id]);
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -34,8 +46,9 @@ class Point {
                 $this->y = $data['y'];
                 $this->user_id = $data['user_id'];
                 $this->photo = $data['photo'];
-            return true;
+                return true;
             }
+
             return false;
         } catch (PDOException $e) {
             error_log("Ошибка загрузки точки: " . $e->getMessage());
@@ -45,33 +58,33 @@ class Point {
 
     public function save()
     {
-        try
-        {
+        try {
             if ($this->id) {
                 $stmt = $this->db->prepare("UPDATE points SET x = ?, y = ?, user_id = ?, photo = ? WHERE id = ?");
-                return $stmt->execute([$this->x, $this->y, $this->user_id, $this->photo, $this->id,]);
-            } else {
-                $stmt = $this->db->prepare("INSERT INTO points (x, y, user_id, photo) VALUES (?, ?, ?, ?)");
-                $result = $stmt->execute([$this->x, $this->y, $this->user_id, $this->photo]);
-                if ($result) {
-                    $this->id = $this->db->lastInsertId();
-                }
-                return $result;
+                return $stmt->execute([$this->x, $this->y, $this->user_id, $this->photo, $this->id]);
             }
 
+            $stmt = $this->db->prepare("INSERT INTO points (x, y, user_id, photo) VALUES (?, ?, ?, ?)");
+            $result = $stmt->execute([$this->x, $this->y, $this->user_id, $this->photo]);
+
+            if ($result) {
+                $this->id = $this->db->lastInsertId();
+            }
+
+            return $result;
         } catch (PDOException $e) {
             error_log("Ошибка сохранения точки: " . $e->getMessage());
             return false;
         }
     }
-    
+
     public function delete()
     {
         if (!$this->id) {
             return false;
         }
-        try
-        {
+
+        try {
             $stmt = $this->db->prepare("DELETE FROM points WHERE id = ?");
             return $stmt->execute([$this->id]);
         } catch (PDOException $e) {
@@ -96,6 +109,7 @@ class Point {
                 $point->photo = $row['photo'];
                 $points[] = $point;
             }
+
             return $points;
         } catch (PDOException $e) {
             error_log("Ошибка получения списка точек: " . $e->getMessage());
@@ -103,14 +117,14 @@ class Point {
         }
     }
 
-    public function getUser() 
+    public function getUser()
     {
         $user = new User($this->db);
         $user->load($this->user_id);
         return $user;
     }
 
-    public function getComments() 
+    public function getComments()
     {
         $stmt = $this->db->prepare("SELECT * FROM comments WHERE point_id = ?");
         $stmt->execute([$this->id]);
@@ -126,7 +140,8 @@ class Point {
             $comment->user_id = $row['user_id'];
             $comments[] = $comment;
         }
+
         return $comments;
-}
+    }
 }
 ?>
