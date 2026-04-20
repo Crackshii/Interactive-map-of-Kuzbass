@@ -1,5 +1,6 @@
 <?php
 
+use Models\PointStory;
 use Models\User;
 
 class UserController
@@ -114,8 +115,17 @@ class UserController
         $user = new User($db);
         $user->load($userId);
         $points = $user->getPoints();
-        
-        $myPoints = $points;
+
+        $myPoints = [];
+
+        foreach ($points as $point) {
+            $stories = PointStory::getByPointId($db, $point->id);
+
+            $myPoints[] = [
+                'point' => $point,
+                'story' => $stories[0] ?? null,
+            ];
+        }
         
         include '../src/views/layouts/header.php';
         include '../src/views/user/my_points.php';
