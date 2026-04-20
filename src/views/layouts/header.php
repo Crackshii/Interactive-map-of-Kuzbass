@@ -18,7 +18,6 @@
         <a href="?page=profile">Профиль</a>
         <?php if ($_SESSION['role'] === 'admin'): ?>
             <a href="?page=admin">Панель Администратора</a>
-            <a href="?page=admin_users">Пользователи</a>
         <?php endif; ?>
         <a href="?page=logout">Выход</a>
     <?php else: ?>

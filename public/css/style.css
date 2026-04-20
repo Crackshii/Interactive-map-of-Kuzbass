@@ -1,4 +1,4 @@
-/* ===== БАЗОВЫЕ СТИЛИ (объединены) ===== */
+/* ===== БАЗОВЫЕ СТИЛИ ===== */
 html, body {
     height: 100%;
     margin: 0;
@@ -53,6 +53,13 @@ body {
 .sidebar-left {
     width: 250px;
     border-right: 1px solid #30363d;
+}
+
+.sidebar h3 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
 }
 
 /* ===== КАРТА ===== */
@@ -115,78 +122,168 @@ body {
     cursor: pointer;
 }
 
+.map-panel button:hover {
+    background: #1a4fc7;
+}
+
 /* ===== АДМИНКА ===== */
 .admin-page {
     flex: 1;
-    width: 100%;
     display: flex;
-    align-items: flex-start;
     justify-content: center;
-    padding: 72px 24px;
+    align-items: center;
+    padding: 50px;
+    overflow: auto;
     box-sizing: border-box;
-    background-color: #0d1117;
 }
 
 .admin-panel-card {
-    width: min(920px, 100%);
-    min-height: 520px;
-    padding: 44px 44px 32px;
-    border: 1px solid #2a3445;
-    border-radius: 28px;
-    background: #161b22;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 24px;
+    padding: 30px;
+    width: 100%;
+    max-width: 1000px;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .admin-panel-card h1 {
-    margin: 0 0 32px;
-    text-align: left;
-    font-size: 44px;
-    line-height: 1.1;
+    margin: 0 0 24px;
+    font-size: 32px;
     color: #ffffff;
 }
 
 .admin-search-shell {
-    max-width: 520px;
-    margin: 0 auto;
-    align-items: left;
+    max-width: 400px;
+    margin-bottom: 0px;
 }
 
 .admin-search-label {
     display: block;
-    margin-bottom: 12px;
-    font-size: 16px;
-    color: #b8c4d6;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #8b949e;
 }
 
 .admin-search-input {
     width: 100%;
-    height: 58px;
-    padding: 0 18px;
-    border: 1px solid #3a4557;
-    border-radius: 18px;
-    background: #1b212b;
+    height: 40px;
+    padding: 0 15px;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    background: #0d1117;
     color: #ffffff;
-    font-size: 18px;
+    font-size: 14px;
     box-sizing: border-box;
     outline: none;
 }
 
-.admin-search-input::placeholder {
-    color: #7d8aa0;
+.admin-search-input:focus {
+    border-color: #58a6ff;
+}
+
+.admin-users-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-user-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 15px 20px;
+    border: 1px solid #30363d;
+    border-radius: 16px;
+    background-color: #1b212b;
+}
+
+.admin-user-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #30363d;
+    flex-shrink: 0;
+}
+
+.admin-user-name {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.admin-user-role {
+    margin-top: 4px;
+    color: #8b949e;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.admin-user-delete-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff4b46;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-user-delete-button:hover {
+    background-color: #e03a35;
 }
 
 .admin-empty-state {
-    margin-top: 32px;
-    min-height: 280px;
-    border: 1px dashed #2a3445;
-    border-radius: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 40px;
     text-align: center;
-    padding: 24px;
-    color: #96a3b8;
-    background: rgba(255, 255, 255, 0.01);
+    color: #8b949e;
+}
+
+/* Скролл */
+.admin-users-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.admin-users-list::-webkit-scrollbar-track {
+    background: #0d1117;
+}
+
+.admin-users-list::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 4px;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+    .admin-page {
+        padding: 10px;
+    }
+    
+    .admin-panel-card {
+        padding: 20px;
+    }
+    
+    .admin-user-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .admin-user-delete-button {
+        width: 100%;
+    }
 }
 
 /* ===== ПРОФИЛЬ ===== */
@@ -198,7 +295,7 @@ body {
     justify-content: flex-start;
     background-color: #0d1117;
     padding: 50px 24px 40px;
-    min-height: calc(100vh - 100px);
+    min-height: calc(100vh - 60px);
     box-sizing: border-box;
 }
 
@@ -400,88 +497,7 @@ body {
     border-color: #f85149;
 }
 
-/* ===== АДАПТИВНОСТЬ ===== */
-@media (max-width: 1100px) {
-    #map {
-        min-height: 560px;
-    }
-
-    .map-panel {
-        flex-wrap: wrap;
-        justify-content: flex-start;
-    }
-    
-    .profile-block {
-        flex-direction: column;
-        align-items: center;
-        padding: 30px;
-        gap: 30px;
-    }
-    
-    .profile-left {
-        flex: 0 0 auto;
-    }
-}
-
-@media (max-width: 900px) {
-    .admin-page {
-        padding: 32px 16px;
-    }
-
-    .admin-panel-card {
-        padding: 28px 20px 24px;
-        min-height: 420px;
-    }
-
-    .admin-panel-card h1 {
-        font-size: 32px;
-    }
-    
-    .points-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
-}
-
-@media (max-width: 768px) {
-    .profile-block {
-        padding: 20px;
-    }
-    
-    .profile-avatar {
-        width: 150px;
-        height: 150px;
-        font-size: 3rem;
-    }
-    
-    .profile-name {
-        font-size: 24px;
-    }
-    
-    .info-item {
-        flex-direction: column;
-    }
-    
-    .info-label {
-        width: auto;
-        margin-bottom: 5px;
-    }
-    
-    .profile-actions {
-        flex-direction: column;
-    }
-    
-    .btn-profile-action {
-        text-align: center;
-    }
-    
-    .points-header {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-}
-
-/* Формы авторизации и регистрации */
+/* ===== ФОРМЫ АВТОРИЗАЦИИ ===== */
 .auth-container {
     width: 400px;
     margin: 50px auto;
@@ -563,4 +579,98 @@ body {
     border-radius: 5px;
     margin-bottom: 20px;
     text-align: center;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 1100px) {
+    #map {
+        min-height: 560px;
+    }
+
+    .map-panel {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    
+    .profile-block {
+        flex-direction: column;
+        align-items: center;
+        padding: 30px;
+        gap: 30px;
+    }
+    
+    .profile-left {
+        flex: 0 0 auto;
+    }
+}
+
+@media (max-width: 900px) {
+    .admin-page {
+        padding: 16px;
+    }
+
+    .admin-panel-card {
+        padding: 20px;
+    }
+
+    .admin-panel-card h1 {
+        font-size: 32px;
+    }
+    
+    .points-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    .admin-user-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .admin-user-delete-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-block {
+        padding: 20px;
+    }
+    
+    .profile-avatar {
+        width: 150px;
+        height: 150px;
+        font-size: 3rem;
+    }
+    
+    .profile-name {
+        font-size: 24px;
+    }
+    
+    .info-item {
+        flex-direction: column;
+    }
+    
+    .info-label {
+        width: auto;
+        margin-bottom: 5px;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+    }
+    
+    .btn-profile-action {
+        text-align: center;
+    }
+    
+    .points-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .auth-container {
+        width: 90%;
+        margin: 30px auto;
+    }
 }

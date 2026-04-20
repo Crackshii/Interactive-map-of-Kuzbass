@@ -16,16 +16,29 @@ class Point
 
     private $db;
 
-    public static function create(PDO $db, int $userId, float $x, float $y): bool
+    public static function create(PDO $db, int $userId, float $x, float $y): ?self
     {
         $sql = "INSERT INTO points (photo, user_id, x, y) VALUES (NULL, :user_id, :x, :y)";
         $stmt = $db->prepare($sql);
-
-        return $stmt->execute([
+        
+        $result = $stmt->execute([
             ':user_id' => $userId,
             ':x' => $x,
             ':y' => $y,
         ]);
+        
+        if (!$result) {
+            return null;
+        }
+        
+        $point = new self($db);
+        $point->id = $db->lastInsertId();
+        $point->x = $x;
+        $point->y = $y;
+        $point->user_id = $userId;
+        $point->photo = null;
+        
+        return $point;
     }
 
     public function __construct(PDO $db)
@@ -69,6 +82,7 @@ class Point
 
             if ($result) {
                 $this->id = $this->db->lastInsertId();
+                $this->addToHistory('created');
             }
 
             return $result;
@@ -142,6 +156,17 @@ class Point
         }
 
         return $comments;
+    }
+
+    public function addToHistory($status): bool
+    {
+        try {
+            $stmt = $this->db->prepare("INSERT INTO point_stories (point_id, status, date) VALUES (?, ?, NOW())");
+            return $stmt->execute([$this->id, $status]);
+        } catch (PDOException $e) {
+            error_log("Ошибка добавления в историю: " . $e->getMessage());
+            return false;
+        }
     }
 }
 ?>
