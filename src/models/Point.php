@@ -37,6 +37,7 @@ class Point
         $point->y = $y;
         $point->user_id = $userId;
         $point->photo = null;
+        $point->addToHistory('Создана');
         
         return $point;
     }
@@ -82,7 +83,7 @@ class Point
 
             if ($result) {
                 $this->id = $this->db->lastInsertId();
-                $this->addToHistory('created');
+                $this->addToHistory('Создана');
             }
 
             return $result;

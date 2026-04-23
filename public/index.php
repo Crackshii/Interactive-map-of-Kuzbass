@@ -7,6 +7,7 @@ require_once '../src/models/PointStory.php';
 require_once '../src/controllers/PointController.php';
 require_once '../src/controllers/UserController.php';
 require_once '../src/controllers/AuthController.php';
+require_once '../src/controllers/CommentController.php';
 
 $conn = getConnection();
 $pdo = $conn[1];
@@ -23,6 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($page === 'points/store') {
         PointController::store($pdo);
+    }
+    if ($page === 'comments/store') {
+        CommentController::store($pdo);
     }
 }
 
@@ -50,6 +54,12 @@ if ($page === 'admin_delete_user') {
 session_start();
 $userId = $_SESSION['user_id'] ?? null;
 $userRole = $_SESSION['role'] ?? null;
+$mapPoints = [];
+$selectedPointId = isset($_GET['point_id']) ? (int) $_GET['point_id'] : 0;
+
+if ($page === 'home') {
+    $mapPoints = PointController::getMapPoints($pdo);
+}
 
 include '../src/views/layouts/header.php';
 

@@ -2,6 +2,19 @@
 
 class AuthController
 {
+    public static function getCurrentUserId(): ?int
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!empty($_SESSION['user_id'])) {
+            return (int) $_SESSION['user_id'];
+        }
+
+        return null;
+    }
+
     public static function login(PDO $pdo): void
     {
         $username = $_POST['username'] ?? '';

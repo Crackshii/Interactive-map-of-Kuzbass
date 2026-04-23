@@ -103,12 +103,18 @@
     max-height: calc(100vh - 140px);
     display: flex;
     flex-direction: column;
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 24px;
+    padding: 24px;
+    box-sizing: border-box;
 }
 
 .points-scroll-area {
     flex: 1;
     overflow-y: auto;
     padding-right: 8px;
+    margin-right: -4px;
     scrollbar-width: thin;
     scrollbar-color: #4a5566 #161b22;
 }
@@ -130,7 +136,7 @@
 .points-scroll-area::-webkit-scrollbar-thumb {
     background: #4a5566;
     border-radius: 999px;
-    border: 2px solid #161b22;
+    border: 3px solid #161b22;
 }
 
 .points-scroll-area::-webkit-scrollbar-thumb:hover {
@@ -141,4 +147,145 @@
     .points-grid {
         grid-template-columns: 1fr;
     }
+}
+
+.point-details-empty {
+    color: #8b949e;
+    padding: 16px 0;
+}
+
+.point-details-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.point-details-hidden {
+    display: none;
+}
+
+.point-details-photo {
+    width: 100%;
+    min-height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #0d1117;
+}
+
+.point-details-photo img {
+    width: 100%;
+    height: 180px;
+    display: block;
+    object-fit: cover;
+}
+
+.point-details-photo-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8b949e;
+    border: 1px dashed #30363d;
+}
+
+.point-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.point-details-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #30363d;
+}
+
+.point-details-label {
+    color: #8b949e;
+}
+
+.point-details-value {
+    color: #c9d1d9;
+    text-align: right;
+    word-break: break-word;
+}
+
+.point-comments-block h4 {
+    margin: 0 0 12px;
+    color: #ffffff;
+}
+
+.point-comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.point-comment-item {
+    padding: 12px;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    background-color: #161b22;
+}
+
+.point-comment-title {
+    margin-bottom: 6px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.point-comment-text {
+    margin-bottom: 8px;
+    color: #c9d1d9;
+    white-space: pre-wrap;
+}
+
+.point-comment-author,
+.point-comment-empty,
+.point-comment-login-note {
+    color: #8b949e;
+    font-size: 13px;
+}
+
+.point-comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.point-comment-label {
+    color: #8b949e;
+    font-size: 14px;
+}
+
+.point-comment-input,
+.point-comment-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    font: inherit;
+}
+
+.point-comment-textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.point-comment-button {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #238636;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.point-comment-button:hover {
+    background-color: #2ea043;
 }

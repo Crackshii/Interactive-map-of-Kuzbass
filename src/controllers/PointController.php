@@ -1,16 +1,15 @@
 <?php
 
 require_once __DIR__ . '/../models/Point.php';
+require_once __DIR__ . '/../models/PointStory.php';
 
 use Models\Point;
+use Models\PointStory;
 
 class PointController
 {
     public static function store(?PDO $pdo = null): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
@@ -22,7 +21,7 @@ class PointController
             exit('Нет подключения к базе данных');
         }
 
-        $userId = self::resolveUserId($pdo);
+        $userId = AuthController::getCurrentUserId();
 
         if ($userId === null) {
             http_response_code(401);
@@ -48,35 +47,42 @@ class PointController
         exit;
     }
 
-    private static function resolveUserId(PDO $pdo): ?int
+    public static function getMapPoints(PDO $pdo): array
     {
-        if (!empty($_SESSION['user']['id'])) {
-            return (int) $_SESSION['user']['id'];
+        $points = Point::getAll($pdo);
+        $mapPoints = [];
+
+        foreach ($points as $point) {
+            $user = $point->getUser();
+            $stories = PointStory::getByPointId($pdo, $point->id);
+            $story = $stories[0] ?? null;
+            $comments = [];
+
+            foreach ($point->getComments() as $comment) {
+                $commentUser = $comment->getUser();
+                $comments[] = [
+                    'id' => $comment->id,
+                    'title' => $comment->title,
+                    'text' => $comment->text,
+                    'user_id' => $comment->user_id,
+                    'username' => $commentUser->username ?? '',
+                ];
+            }
+
+            $mapPoints[] = [
+                'id' => $point->id,
+                'x' => (float) $point->x,
+                'y' => (float) $point->y,
+                'user_id' => $point->user_id,
+                'photo' => $point->photo,
+                'username' => $user->username ?? '',
+                'role' => $user->role ?? '',
+                'status' => $story ? $story->status : '',
+                'date' => $story ? $story->date : '',
+                'comments' => $comments,
+            ];
         }
 
-        if (!empty($_SESSION['user_id'])) {
-            return (int) $_SESSION['user_id'];
-        }
-
-        if (!empty($_SESSION['id'])) {
-            return (int) $_SESSION['id'];
-        }
-
-        try {
-            $stmt = $pdo->query('SELECT id FROM users ORDER BY id ASC LIMIT 2');
-            $userIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        } catch (Throwable $e) {
-            return null;
-        }
-
-        if (count($userIds) === 1) {
-            $userId = (int) $userIds[0];
-            $_SESSION['user'] = ['id' => $userId];
-            $_SESSION['user_id'] = $userId;
-            $_SESSION['id'] = $userId;
-            return $userId;
-        }
-
-        return null;
+        return $mapPoints;
     }
 }
