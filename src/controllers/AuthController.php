@@ -24,7 +24,7 @@ class AuthController
         $stmt->execute([$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        if ($user && $password === $user['password']) {
+        if ($user && password_verify($password, $user['password'])) {
             session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
@@ -64,9 +64,10 @@ class AuthController
             exit;
         }
         
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $role = 'user';
         $stmt = $pdo->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
-        $result = $stmt->execute([$username, $password, $role]);
+        $result = $stmt->execute([$username, $hashedPassword, $role]);
         
         if ($result) {
             $userId = $pdo->lastInsertId();
