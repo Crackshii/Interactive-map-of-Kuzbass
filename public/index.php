@@ -1,13 +1,19 @@
 <?php
+if (file_exists('../vendor/autoload.php')) {
+    require_once '../vendor/autoload.php';
+}
+
 require_once '../src/settings/pdo.php';
 require_once '../src/models/Point.php';
 require_once '../src/models/User.php';
 require_once '../src/models/Comment.php';
 require_once '../src/models/PointStory.php';
+require_once '../src/models/Report.php';
 require_once '../src/controllers/PointController.php';
 require_once '../src/controllers/UserController.php';
 require_once '../src/controllers/AuthController.php';
 require_once '../src/controllers/CommentController.php';
+require_once '../src/controllers/ReportController.php';
 
 $conn = getConnection();
 $pdo = $conn[1];
@@ -42,6 +48,16 @@ if ($page === 'profile') {
 
 if ($page === 'my_points') {
     UserController::myPoints($pdo);
+    exit;
+}
+
+if ($page === 'reports') {
+    ReportController::index($pdo);
+    exit;
+}
+
+if ($page === 'reports/export') {
+    ReportController::export($pdo);
     exit;
 }
 
