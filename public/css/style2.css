@@ -290,6 +290,18 @@
     background-color: #2ea043;
 }
 
+.new-point-header h4 {
+    margin: 0 0 8px;
+    color: #ffffff;
+    font-size: 22px;
+}
+
+.new-point-header p {
+    margin: 0;
+    color: #9aa7bb;
+    font-size: 14px;
+}
+
 .reports-page {
     flex: 1;
     width: 100%;

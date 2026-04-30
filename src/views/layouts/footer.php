@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectedPointId = Number(mapElement.dataset.selectedPointId || 0);
     const emptyState = document.getElementById('point-details-empty');
     const detailsCard = document.getElementById('point-details-card');
+    const newPointCard = document.getElementById('new-point-card');
     const photoBlock = document.getElementById('point-details-photo');
     const pointIdValue = document.getElementById('point-details-id');
     const usernameValue = document.getElementById('point-details-username');
@@ -23,6 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const commentsList = document.getElementById('point-comments-list');
     const commentPointId = document.getElementById('comment-point-id');
     const pointForm = document.getElementById('point-form');
+    const newPointCommentTitle = document.getElementById('new-point-comment-title');
+    const newPointCommentText = document.getElementById('new-point-comment-text');
+    const xInput = document.getElementById('point-x');
+    const yInput = document.getElementById('point-y');
+    const latValue = document.getElementById('lat-value');
+    const lngValue = document.getElementById('lng-value');
 
     const map = new ol.Map({
         target: 'map',
@@ -88,11 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
     map.addLayer(pointsLayer);
     map.addLayer(markerLayer);
 
-    const xInput = document.getElementById('point-x');
-    const yInput = document.getElementById('point-y');
-    const latValue = document.getElementById('lat-value');
-    const lngValue = document.getElementById('lng-value');
-
     let markerFeature = null;
     let activePointFeature = null;
 
@@ -134,18 +136,42 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function resetPointSelection() {
-        if (activePointFeature) {
-            activePointFeature.setStyle(pointStyle);
-            activePointFeature = null;
-        }
-
+    function hideAllPointPanels() {
         if (emptyState) {
-            emptyState.classList.remove('point-details-hidden');
+            emptyState.classList.add('point-details-hidden');
         }
 
         if (detailsCard) {
             detailsCard.classList.add('point-details-hidden');
+        }
+
+        if (newPointCard) {
+            newPointCard.classList.add('point-details-hidden');
+        }
+    }
+
+    function showEmptyState() {
+        hideAllPointPanels();
+
+        if (emptyState) {
+            emptyState.classList.remove('point-details-hidden');
+        }
+    }
+
+    function resetNewPointForm() {
+        if (newPointCommentTitle) {
+            newPointCommentTitle.value = '';
+        }
+
+        if (newPointCommentText) {
+            newPointCommentText.value = '';
+        }
+    }
+
+    function resetPointSelection() {
+        if (activePointFeature) {
+            activePointFeature.setStyle(pointStyle);
+            activePointFeature = null;
         }
 
         if (commentPointId) {
@@ -154,16 +180,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderPointDetails(pointData, feature) {
-        if (activePointFeature) {
-            activePointFeature.setStyle(pointStyle);
-        }
+        resetNewPointForm();
+        resetPointSelection();
 
         activePointFeature = feature;
         activePointFeature.setStyle(selectedPointStyle);
 
-        if (emptyState) {
-            emptyState.classList.add('point-details-hidden');
-        }
+        hideAllPointPanels();
 
         if (detailsCard) {
             detailsCard.classList.remove('point-details-hidden');
@@ -210,6 +233,16 @@ document.addEventListener('DOMContentLoaded', function () {
         renderComments(pointData.comments || []);
     }
 
+    function renderNewPointForm() {
+        resetPointSelection();
+        resetNewPointForm();
+        hideAllPointPanels();
+
+        if (newPointCard) {
+            newPointCard.classList.remove('point-details-hidden');
+        }
+    }
+
     mapPointsData.forEach(function (pointData) {
         const feature = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.fromLonLat([Number(pointData.y), Number(pointData.x)]))
@@ -222,6 +255,10 @@ document.addEventListener('DOMContentLoaded', function () {
             renderPointDetails(pointData, feature);
         }
     });
+
+    if (!selectedPointId) {
+        showEmptyState();
+    }
 
     map.on('click', function (event) {
         const pointFeature = map.forEachFeatureAtPixel(event.pixel, function (feature, layer) {
@@ -250,8 +287,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const lng = coords[0].toFixed(7);
         const lat = coords[1].toFixed(7);
 
-        resetPointSelection();
-
         if (markerFeature) {
             markerSource.removeFeature(markerFeature);
         }
@@ -266,13 +301,28 @@ document.addEventListener('DOMContentLoaded', function () {
         yInput.value = lng;
         latValue.textContent = lat;
         lngValue.textContent = lng;
+
+        if (newPointCommentTitle) {
+            newPointCommentTitle.focus();
+        }
+
+        renderNewPointForm();
     });
 
     if (pointForm) {
         pointForm.addEventListener('submit', function (event) {
+            const title = newPointCommentTitle ? newPointCommentTitle.value.trim() : '';
+            const text = newPointCommentText ? newPointCommentText.value.trim() : '';
+
             if (!xInput.value || !yInput.value) {
                 event.preventDefault();
                 alert('Сначала выберите точку на карте');
+                return;
+            }
+
+            if (title === '' || text === '') {
+                event.preventDefault();
+                alert('Заполните заголовок и текст комментария');
             }
         });
     }

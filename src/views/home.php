@@ -7,7 +7,7 @@
     <div class="map-wrapper">
         <div
             id="map"
-            data-map-points='<?= htmlspecialchars(json_encode($mapPoints, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), ENT_QUOTES, "UTF-8") ?>'
+            data-map-points='<?= htmlspecialchars(json_encode($mapPoints, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') ?>'
             data-selected-point-id="<?= $selectedPointId ?>"
         ></div>
 
@@ -18,7 +18,6 @@
             <form method="post" action="?page=points/store" id="point-form">
                 <input type="hidden" name="x" id="point-x">
                 <input type="hidden" name="y" id="point-y">
-                <button type="submit">Добавить точку</button>
             </form>
         </div>
     </div>
@@ -78,6 +77,40 @@
                 </form>
             <?php else: ?>
                 <div class="point-comment-login-note">Авторизуйтесь, чтобы оставить комментарий.</div>
+            <?php endif; ?>
+        </div>
+
+        <div id="new-point-card" class="point-details-card point-details-hidden">
+            <div class="new-point-header">
+                <h4>Новая точка</h4>
+                <p>Добавьте первый комментарий к новой точке</p>
+            </div>
+
+            <?php if ($userId): ?>
+                <div class="point-comment-form">
+                    <label class="point-comment-label" for="new-point-comment-title">Заголовок комментария</label>
+                    <input
+                        type="text"
+                        name="comment_title"
+                        id="new-point-comment-title"
+                        class="point-comment-input"
+                        placeholder="Введите заголовок комментария"
+                        form="point-form"
+                    >
+
+                    <label class="point-comment-label" for="new-point-comment-text">Комментарий</label>
+                    <textarea
+                        name="comment_text"
+                        id="new-point-comment-text"
+                        class="point-comment-textarea"
+                        placeholder="Введите комментарий"
+                        form="point-form"
+                    ></textarea>
+
+                    <button type="submit" class="point-comment-button" form="point-form">Добавить точку</button>
+                </div>
+            <?php else: ?>
+                <div class="point-comment-login-note">Авторизуйтесь, чтобы добавить новую точку.</div>
             <?php endif; ?>
         </div>
     </aside>
