@@ -15,7 +15,7 @@
             <div>Широта: <span id="lat-value">—</span></div>
             <div>Долгота: <span id="lng-value">—</span></div>
 
-            <form method="post" action="?page=points/store" id="point-form">
+            <form method="post" action="?page=points/store" id="point-form" enctype="multipart/form-data">
                 <input type="hidden" name="x" id="point-x">
                 <input type="hidden" name="y" id="point-y">
             </form>
@@ -106,6 +106,16 @@
                         placeholder="Введите комментарий"
                         form="point-form"
                     ></textarea>
+
+                    <label class="point-comment-label" for="new-point-photo">Прикрепить фото</label>
+                    <input
+                        type="file"
+                        name="photo"
+                        id="new-point-photo"
+                        class="point-comment-input point-comment-file"
+                        accept="image/jpeg,image/png,image/webp"
+                        form="point-form"
+                    >
 
                     <button type="submit" class="point-comment-button" form="point-form">Добавить точку</button>
                 </div>

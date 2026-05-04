@@ -33,6 +33,8 @@ class PointController
         $y = isset($_POST['y']) ? (float) $_POST['y'] : null;
         $commentTitle = trim((string) ($_POST['comment_title'] ?? ''));
         $commentText = trim((string) ($_POST['comment_text'] ?? ''));
+        $photoPath = null;
+        $uploadedFilePath = null;
 
         if ($x === null || $y === null) {
             http_response_code(422);
@@ -49,10 +51,47 @@ class PointController
             exit('Некорректные координаты');
         }
 
+        if (isset($_FILES['photo']) && $_FILES['photo']['error'] !== UPLOAD_ERR_NO_FILE) {
+            if ($_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
+                http_response_code(422);
+                exit('Не удалось загрузить фото');
+            }
+
+            $tmpName = (string) $_FILES['photo']['tmp_name'];
+            $fileInfo = new finfo(FILEINFO_MIME_TYPE);
+            $mimeType = $fileInfo->file($tmpName);
+            $allowedTypes = [
+                'image/jpeg' => 'jpg',
+                'image/png' => 'png',
+                'image/webp' => 'webp',
+            ];
+
+            if (!isset($allowedTypes[$mimeType])) {
+                http_response_code(422);
+                exit('Доступны только JPG, PNG и WEBP');
+            }
+
+            $uploadDir = dirname(__DIR__, 2) . '/public/uploads/points';
+
+            if (!is_dir($uploadDir) && !mkdir($uploadDir, 0777, true) && !is_dir($uploadDir)) {
+                http_response_code(500);
+                exit('Не удалось подготовить папку для фото');
+            }
+
+            $fileName = 'point_' . $userId . '_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $allowedTypes[$mimeType];
+            $uploadedFilePath = $uploadDir . '/' . $fileName;
+            $photoPath = '/uploads/points/' . $fileName;
+
+            if (!move_uploaded_file($tmpName, $uploadedFilePath)) {
+                http_response_code(500);
+                exit('Не удалось сохранить фото');
+            }
+        }
+
         try {
             $pdo->beginTransaction();
 
-            $point = Point::create($pdo, $userId, $x, $y);
+            $point = Point::create($pdo, $userId, $x, $y, $photoPath);
 
             if (!$point instanceof Point) {
                 throw new RuntimeException('Не удалось создать точку');
@@ -72,6 +111,10 @@ class PointController
         } catch (Throwable $e) {
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();
+            }
+
+            if ($uploadedFilePath && is_file($uploadedFilePath)) {
+                unlink($uploadedFilePath);
             }
 
             http_response_code(500);

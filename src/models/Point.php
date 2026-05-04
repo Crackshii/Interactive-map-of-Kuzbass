@@ -16,12 +16,13 @@ class Point
 
     private $db;
 
-    public static function create(PDO $db, int $userId, float $x, float $y): ?self
+    public static function create(PDO $db, int $userId, float $x, float $y, ?string $photo = null): ?self
     {
-        $sql = "INSERT INTO points (photo, user_id, x, y) VALUES (NULL, :user_id, :x, :y)";
+        $sql = "INSERT INTO points (photo, user_id, x, y) VALUES (:photo, :user_id, :x, :y)";
         $stmt = $db->prepare($sql);
         
         $result = $stmt->execute([
+            ':photo' => $photo,
             ':user_id' => $userId,
             ':x' => $x,
             ':y' => $y,
@@ -36,7 +37,7 @@ class Point
         $point->x = $x;
         $point->y = $y;
         $point->user_id = $userId;
-        $point->photo = null;
+        $point->photo = $photo;
         $point->addToHistory('Создана');
         
         return $point;

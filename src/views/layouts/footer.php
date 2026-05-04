@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const pointForm = document.getElementById('point-form');
     const newPointCommentTitle = document.getElementById('new-point-comment-title');
     const newPointCommentText = document.getElementById('new-point-comment-text');
+    const newPointPhoto = document.getElementById('new-point-photo');
     const xInput = document.getElementById('point-x');
     const yInput = document.getElementById('point-y');
     const latValue = document.getElementById('lat-value');
@@ -165,6 +166,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (newPointCommentText) {
             newPointCommentText.value = '';
+        }
+
+        if (newPointPhoto) {
+            newPointPhoto.value = '';
         }
     }
 
